@@ -4,8 +4,7 @@ Created on Wed Nov 29 10:17:13 2023
 
 @author: jil12
 """
-# base code given by professor 
-# Comments: you can build other features over that one, such as square root and exponents as well as currency converter.
+
 import tkinter as tk
 from math import sqrt
 #ttk to be able to use the combobox
@@ -26,7 +25,7 @@ class CalculatorProject:
         self.main_window.resizable(height=False, width=False)
         
         #Change color of background 
-        self.main_window.configure(background = 'light green')
+        self.main_window.configure(background = 'white')
         # Creates an entry widget for display
         self.display = tk.Entry(self.main_window, width=35, borderwidth=5)
         self.display.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
@@ -103,8 +102,7 @@ class CalculatorProject:
                     self.current_expression = ""
         
         
-        
-        
+        # Button Conversion event
         def button_conversion():
             # If statement for when the from currency is set to USD 
             if from_combo.get() == 'USD':
@@ -112,10 +110,10 @@ class CalculatorProject:
                 if to_combo.get() == 'USD':
                     #This will create a variable and will get it from the display field with .get()
                     conversion_results = self.display1.get()
-                #If  statesment for when from is USD and to is EU    
+                #If  statement for when from is USD and to is EU    
                 elif to_combo.get() == 'EU':
                     conversion_results = float(self.display1.get()) * 0.92
-                #If  statesment for when from is USD and to is YEN    
+                #If  statement for when from is USD and to is YEN    
                 elif to_combo.get() == 'YEN':
                     conversion_results = float(self.display1.get()) * 146
             # IF statement for when from field is set to EU 
@@ -178,7 +176,7 @@ class CalculatorProject:
             history_window.title("Calculation History")
 
             # Display history in a label
-            history_label = tk.Label(history_window, text="\n".join(self.history), padx=40, pady=20)
+            history_label = tk.Label(history_window, text="\n".join(self.history), padx=40, pady=40)
             history_label.pack()
         # ---------------------------------------------------------------------
         # Define buttons on click (0-9)
@@ -203,35 +201,35 @@ class CalculatorProject:
         button_clear = tk.Button(self.main_window, text="Clear", bg='lime green', padx=77, pady=20, command=button_clear)
         equal_button = tk.Button(self.main_window, text="=", bg='lime green', padx=39, pady=20, command=button_equal)
         button_history = tk.Button(self.main_window, text="History", bg='lime green', padx=26, pady=20, command=show_history)
-        
-        
+        # ---------------------------------------------------------------------
+        # Label for Currency 
         currency_label = tk.Label(self.main_window, text='Currency Converter', pady=10, padx=60, font=('Poppins 20 bold'), bg='green4')
+        # Label for "FROM"
+        from_currency_label = tk.Label(self.main_window, text='FROM:', font=('Poppins 10 bold'), bg='white')
+        # Label for "TO:"
+        to_currency_label = tk.Label(self.main_window, text='TO:', font=('Poppins 10 bold'), bg='white')
         
-        
-        from_currency_label = tk.Label(self.main_window, text='FROM:', font=('Poppins 10 bold'), bg='light green')
-        
-        
-        to_currency_label = tk.Label(self.main_window, text='TO:', font=('Poppins 10 bold'), bg='light green')
-        
-        # Comboboxes for from field and to field in the currency conversion field 
+        # Combobox for "FROM" field in the currency conversion field 
         from_combo = tkinter.ttk.Combobox(self.main_window, width=10, font=('Poppins 10 bold'), values=('USD','EU','YEN'))
         from_combo.grid(row=9, column=0, sticky= 'W')
+        # Combobox for "TO" field in the currency conversion field 
         to_combo = tkinter.ttk.Combobox(self.main_window, width=10, font=('Poppins 10 bold'), values=('USD','EU','YEN'))
         to_combo.grid(row=9, column=2, sticky= 'W')
         
-        # Label that saids AMMOUNT to signal where to enter conversion ammount 
-        ammount_currency_label = tk.Label(self.main_window, text='AMMOUNT:', font=('Poppins 10 bold'), bg='light green')
-        
-        # Button to click to run the button_conversion()
-        convert_button = tk.Button(self.main_window, text="CONVERT", bg='dodger blue', fg='white', font=('Poppins 10 bold'), command=button_conversion)
-        convert_button.grid(row=12, column=0, sticky='W', pady=5)
-        
-        # Emptry LABEL that through button_conversion() will be filled with conversion results.
+        # "AMOUNT" label to signal where to enter conversion ammount 
+        ammount_currency_label = tk.Label(self.main_window, text='AMOUNT:', font=('Poppins 10 bold'), bg='white')
+        # Empty LABEL that through button_conversion() will be filled with conversion results.
         result_label = tk.Label(self.main_window, text='', font=('Poppins 10 bold'))
         result_label.grid(row=13, column=0, sticky='W', pady=5, columnspan=4)
         outcome_results = f'{self.display1.get()} {from_combo.current(0)} =  {to_combo.current(0)}'
         
         
+        # Conversion Button: click to run the button_conversion() function
+        convert_button = tk.Button(self.main_window, text="CONVERT", bg='dodger blue', fg='white', font=('Poppins 10 bold'), command=button_conversion)
+        convert_button.grid(row=12, column=0, sticky='W', pady=5)
+        
+        
+
         # ---------------------------------------------------------------------
         # Place buttons on the screen
         # first row buttons
