@@ -104,48 +104,61 @@ class CalculatorProject:
         
         # Button Conversion event
         def button_conversion():
-            # If statement for when the from currency is set to USD 
-            if from_combo.get() == 'USD':
-                #If  statesment for when from is USD and to is USD
-                if to_combo.get() == 'USD':
-                    #This will create a variable and will get it from the display field with .get()
-                    conversion_results = self.display1.get()
-                #If  statement for when from is USD and to is EU    
-                elif to_combo.get() == 'EU':
-                    conversion_results = float(self.display1.get()) * 0.92
-                #If  statement for when from is USD and to is YEN    
-                elif to_combo.get() == 'YEN':
-                    conversion_results = float(self.display1.get()) * 146
-            # IF statement for when from field is set to EU 
-            elif from_combo.get() == 'EU':
-                #If statment if from is set to EU and to is set to EU 
+            try:
+                # If statement for when the from currency is set to USD 
+                if from_combo.get() == 'USD':
+                    # If from is USD and to is USD
+                    if to_combo.get() == 'USD':
+                        conversion_results = float(self.display1.get())  # USD to USD is the same value
+                    # If from is USD and to is EU    
+                    elif to_combo.get() == 'EU':
+                        conversion_results = float(self.display1.get()) * 0.92
+                    # If from is USD and to is YEN    
+                    elif to_combo.get() == 'YEN':
+                        conversion_results = float(self.display1.get()) * 146
+                # If from field is set to EU 
+                elif from_combo.get() == 'EU':
+                    # If from is set to EU and to is EU 
                     if to_combo.get() == 'EU':
-                        conversion_results = self.display1.get()
-                    #If statment if from is set to EU and to is set to USD    
+                        conversion_results = float(self.display1.get())  # EU to EU is the same value
+                    # If from is set to EU and to is USD    
                     elif to_combo.get() == 'USD':
                         conversion_results = float(self.display1.get()) * 1.09
-                    #If statment if from is set to EU and to is set to YEN    
+                    # If from is set to EU and to is YEN    
                     elif to_combo.get() == 'YEN':
                         conversion_results = float(self.display1.get()) * 159
-            #Else statement is for the last condition which is if from field is set to YEN            
-            else:
-                #If from is set to yen and to field is set to yen 
-                if to_combo.get() == 'YEN':
-                    conversion_results = self.display1.get()
-                #If from is set to yen and to field is set to USD    
-                elif to_combo.get() == 'USD':
-                    conversion_results = float(self.display1.get()) * 0.0068
-                #If from is set to yen and to field is set to EU
-                elif to_combo.get() == 'EU':
-                    conversion_results = float(self.display1.get()) * 0.0063
-            # This will format the results into a formatted string  
-            outcome_results = f'{self.display1.get()} {from_combo.get()} = {conversion_results} {to_combo.get()}'
-            # This will set the results label to the conversion_results
-            result_label.config(text=outcome_results)
-            #This statment will add conversion to the history window 
-            self.history.append(f"{from_combo.get()} {self.display1.get()} = {to_combo.get()} {conversion_results}")
+                # Else statement is for the last condition, which is when from is set to YEN            
+                elif from_combo.get() == 'YEN':
+                    # If from is set to YEN and to is YEN 
+                    if to_combo.get() == 'YEN':
+                        conversion_results = float(self.display1.get())  # YEN to YEN is the same value
+                    # If from is set to YEN and to is USD    
+                    elif to_combo.get() == 'USD':
+                        conversion_results = float(self.display1.get()) * 0.0068
+                    # If from is set to YEN and to is EU
+                    elif to_combo.get() == 'EU':
+                        conversion_results = float(self.display1.get()) * 0.0063
         
-        # Button Equal event
+                # This will format the result to display with two decimal places for clarity
+                conversion_results = round(conversion_results, 2)
+        
+                # This will format the result for display in both the result label and the history
+                amount = self.display1.get()
+                from_currency = from_combo.get()
+                to_currency = to_combo.get()
+                outcome_results = f'{amount} {from_currency} = {conversion_results} {to_currency}'
+        
+                # This will set the result in the result label
+                result_label.config(text=outcome_results)
+        
+                # This statement will add the conversion to the history window 
+                self.history.append(outcome_results)
+            
+            # Except block handles non-numeric inputs in the amount field
+            except ValueError:
+                # Display an error message if the user enters an invalid amount
+                result_label.config(text="Error: Invalid amount")
+
         def button_equal():
             # Try block
             try:
@@ -178,6 +191,9 @@ class CalculatorProject:
             # Display history in a label
             history_label = tk.Label(history_window, text="\n".join(self.history), padx=40, pady=40)
             history_label.pack()
+            
+            
+        
         # ---------------------------------------------------------------------
         # Define buttons on click (0-9)
         button_1 = tk.Button(self.main_window, text="1", bg='lime green', padx=40, pady=20, command=lambda: button_click(1))
